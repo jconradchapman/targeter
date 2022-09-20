@@ -5,7 +5,7 @@ MySQL 5.7.32 Database
 jchapman - created: 6/24/22 modified:
 
 Script to pull HCPs for StackAdapt campaigns
-Outputs: elect mail address, mail phone, practice address, practice phone and direct endpoint
+Outputs: select mail address, mail phone, practice address, practice phone and direct endpoint
 */
 
 
