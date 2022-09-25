@@ -1,5 +1,5 @@
 /*
-UNIVERSAL_NPI_OUTPUT_LIST.SQL
+STACKADAPT_NPI_OUTPUT_LIST.SQL
 Targeter v1
 MySQL 5.7.32 Database
 jchapman - created: 6/24/22 modified:
