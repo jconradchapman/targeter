@@ -3,15 +3,19 @@ NPI_DATA_LOAD.SQL
 Targeter v1
 MySQL 5.7.32 Database
 jchapman - created: 3.18.2022 modified: 3.19.2022
-Script that creates npi data tables and loads data from .csv files
+Script that creates npi data tables and loads data from .csv files.
+
+DO NOT USE THIS SCRIPT IF WORKING IN THE AZURE CLOUD. USE ETL PROCESSES BUILT IN DATA FACTORY TO LOAD NPI DATA.
 */
 
+/*
 -- create table for and load othername_pfile_
 CREATE TABLE npi_otherorgnames (
 othername_id INT AUTO_INCREMENT PRIMARY KEY,
 npi INT,
 prov_othr_org_name varchar(120),
 prov_othr_org_name_type varchar(1));
+*/
 
 LOAD DATA INFILE '/Users/jchapman/Downloads/NPPES_Data_Dissemination_September_2022/othername_pfile_20050523-20220911.csv' IGNORE INTO TABLE npi_otherorgnames
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
@@ -19,8 +23,9 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (npi, prov_othr_org_name, prov_othr_org_name_type);
 
-SELECT * FROM npi_otherorgnames;
+-- SELECT * FROM npi_otherorgnames;
 
+/*
 -- create table for and load pl_pfile_
 CREATE TABLE npi_otherpraclocations (
 other_prac_loc_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,6 +39,7 @@ country varchar(2),
 telephone_nbr varchar(20),
 telephone_ext varchar(5),
 fax_nbr varchar(20));
+*/
 
 LOAD DATA INFILE '/Users/jchapman/Downloads/NPPES_Data_Dissemination_September_2022/pl_pfile_20050523-20220911.csv' IGNORE INTO TABLE npi_otherpraclocations
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
@@ -41,8 +47,9 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (npi, address_line_1, address_line_2, city, state, postal_code, country, telephone_nbr, telephone_ext, fax_nbr);
 
-SELECT * FROM npi_otherpraclocations;
+-- SELECT * FROM npi_otherpraclocations;
 
+/*
 -- create table for and load endpoint_pfile_
 CREATE TABLE npi_endpoints (
 endpoint_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,6 +72,7 @@ affiliation_address_city varchar(40),
 affiliation_address_state varchar(40),
 affiliation_address_country varchar(2),
 affiliation_address_postal_code varchar(55));
+*/
 
 LOAD DATA INFILE '/Users/jchapman/Downloads/NPPES_Data_Dissemination_September_2022/endpoint_pfile_20050523-20220911.csv' IGNORE INTO TABLE npi_endpoints
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
@@ -72,8 +80,9 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (npi, endpoint_type, endpoint_type_desc, endpoint, affiliation, endpoint_desc, affiliation_legal_bus_name, use_code, use_desc, other_use_desc, content_type, content_desc, other_content_desc, affiliation_address_line_1, affiliation_address_line_2, affiliation_address_city, affiliation_address_state, affiliation_address_country, affiliation_address_postal_code);
 
-SELECT * FROM npi_endpoints;
+-- SELECT * FROM npi_endpoints;
 
+/*
 -- create table for and load npidata_pfile_
 
 -- allow for large table creation. RUN THE NEXT TWO 'SET' STATEMENTS SEPARATELY!!
@@ -412,6 +421,7 @@ c327 varchar(10),
 c328 varchar(10),
 c329 varchar(10),
 cert_date varchar(10));
+*/
 
 LOAD DATA INFILE '/Users/jchapman/Downloads/NPPES_Data_Dissemination_September_2022/npidata_pfile_20050523-20220911.csv' IGNORE INTO TABLE npi_npidata
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
@@ -431,8 +441,9 @@ c257, c258, c259, c260, c261, c262, c263, c264, c265, c266, c267, c268, c269, c2
 c292, c293, c294, c295, c296, c297, c298, c299, c300, c301, c302, c303, c304, c305, c306, c307, sole_proprietor, org_subpart, c310, c311, c312, c313, c314, c315, c316, c317, c318, c319, c320, c321, c322, c323,
 c324, c325, c326, c327, c328, c329, cert_date);
 
-SELECT * FROM npi_npidata;
+--SELECT * FROM npi_npidata;
 
+/*
 -- run table counts
 SELECT count(*) AS 'npi_data table record count' FROM npi_npidata;
 
@@ -441,3 +452,4 @@ SELECT count(*) AS 'endpoints table record count' FROM npi_endpoints;
 SELECT count(*) AS 'other names table record count' FROM npi_otherorgnames;
 
 SELECT count(*) AS 'practice locations table record count' FROM npi_otherpraclocations;
+*/
