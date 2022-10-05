@@ -2,12 +2,13 @@
 STACKADAPT_NPI_OUTPUT_LIST.SQL
 Targeter v1
 MySQL 5.7.32 Database
-jchapman - created: 6/24/22 modified:
+jchapman - created: 6/24/22 modified: 10/4/22
 
 Script to pull HCPs for StackAdapt campaigns
 Outputs: select mail address, mail phone, practice address, practice phone and direct endpoint
 */
 
+-- SCRIPT BEGINS
 
 -- first, create and populate table for addresses from npi_npidata table
 DROP TABLE IF EXISTS hcp_addresses;
@@ -28,10 +29,10 @@ prac_phone varchar(100));
 
 INSERT INTO hcp_addresses 
 (npi, fname, lname, mail_address, mail_city, mail_state, mail_zip, mail_phone, prac_address, prac_city, prac_state, prac_zip, prac_phone)
-SELECT npi, prov_first_name AS first_name, prov_last_name AS last_name, CONCAT(c21, " ", c22) AS mail_address, c23 AS mail_city, c24 AS mail_state, c25 AS mail_zip, c27 AS mail_phone, CONCAT(c29, " ", c30) AS practice_address, c31 AS practice_city, c32 AS practice_state, c33 AS practice_zip, c35 AS practice_phone
-FROM npi_npidata USE INDEX (taxonomy_code_1)
+SELECT npi, prov_first_name AS first_name, prov_last_name AS last_name, CONCAT(mailing_address_line_1, " ", mailing_address_line_2) AS mail_address, mailing_address_city AS mail_city, mailing_address_state AS mail_state, mailing_address_zip AS mail_zip, mailing_address_phone AS mail_phone, CONCAT(practice_address_line_1, " ", practice_address_line_2) AS practice_address, practice_address_city AS practice_city, practice_address_state AS practice_state, practice_address_zip AS practice_zip, practice_address_phone AS practice_phone
+FROM npi_npidata
 
--- ******************** UPDATE THIS PART ONLY WITH RELEVANT TAXONOMY CODES ********************
+-- UPDATE THIS PART ONLY WITH RELEVANT TAXONOMY CODES ********************
 
 WHERE
 	npi_npidata.health_prov_taxonomy_code_1 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
@@ -50,7 +51,7 @@ WHERE
 	npi_npidata.health_prov_taxonomy_code_14 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
 	npi_npidata.health_prov_taxonomy_code_15 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X');
 
--- ***************************************************************************************
+-- ************************************************************************
 
 SELECT * FROM hcp_addresses;
 SELECT COUNT(*) FROM hcp_addresses;
@@ -95,3 +96,31 @@ LEFT JOIN hcp_direct_endpoints USING (npi);
 
 SELECT * FROM hcp_output_list;
 SELECT COUNT(*) FROM hcp_output_list;
+
+-- UPDATE THIS PART WITH NAME TO BE USED FOR OUTPUT FILE ********************
+
+-- export column names in first row (preferred)
+SELECT 'fname', 'lname', 'mail_address', 'mail_city', 'mail_state', 'mail_zip', 'mail_phone', 'prac_address', 'prac_city', 'prac_state', 'prac_zip', 'prac_phone', 'endpoint'
+UNION ALL
+SELECT * FROM (SELECT fname, lname, mail_address, mail_city, mail_state, mail_zip, mail_phone, prac_address, prac_city, prac_state, prac_zip, prac_phone, endpoint FROM hcp_output_list) a
+INTO OUTFILE 'C:\Users\jchapman\Downloads\lungevity_gateways_campaign_hcp_list_20221004.csv'
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+-- **************************************************************************
+
+-- SCRIPT ENDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
