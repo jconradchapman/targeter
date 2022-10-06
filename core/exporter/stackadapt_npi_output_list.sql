@@ -97,17 +97,19 @@ LEFT JOIN hcp_direct_endpoints USING (npi);
 SELECT * FROM hcp_output_list;
 SELECT COUNT(*) FROM hcp_output_list;
 
+/*
 -- UPDATE THIS PART WITH NAME TO BE USED FOR OUTPUT FILE ********************
 
 -- export column names in first row (preferred)
 SELECT 'fname', 'lname', 'mail_address', 'mail_city', 'mail_state', 'mail_zip', 'mail_phone', 'prac_address', 'prac_city', 'prac_state', 'prac_zip', 'prac_phone', 'endpoint'
 UNION ALL
 SELECT * FROM (SELECT fname, lname, mail_address, mail_city, mail_state, mail_zip, mail_phone, prac_address, prac_city, prac_state, prac_zip, prac_phone, endpoint FROM hcp_output_list) a
-INTO OUTFILE 'C:\Users\jchapman\Downloads\lungevity_gateways_campaign_hcp_list_20221004.csv'
+INTO OUTFILE 'C:\Users\jchapman\Downloads\lungevity_gateways_campaign_hcp_list_20221004test.csv'
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n';
 
 -- **************************************************************************
+*/
 
 -- SCRIPT ENDS
 
