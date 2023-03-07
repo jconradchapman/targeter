@@ -1,0 +1,9 @@
+{
+    "code-runner.runInTerminal": true,
+    "code-runner.clearPreviousOutput": true,
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.analysis.include": [
+        "C:\\Program Files\\Targeter\\.vscode\\targeterpylibraries\\Lib\\site-packages\\requests",
+        ".vscode\\targeterpylibraries\\Lib\\site-packages\\requests"
+    ]
+}
