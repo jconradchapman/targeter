@@ -35,21 +35,21 @@ FROM npi_npidata
 -- UPDATE THIS PART ONLY WITH RELEVANT TAXONOMY CODES ********************
 
 WHERE
-	npi_npidata.health_prov_taxonomy_code_1 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_2 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_3 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_4 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_5 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_6 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_7 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_8 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_9 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_10 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_11 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_12 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR 
-	npi_npidata.health_prov_taxonomy_code_13 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_14 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X') OR
-	npi_npidata.health_prov_taxonomy_code_15 IN ('207RH0003X', '207RX0202X', '2085R0001X', '163WX0200X', '364SX0200X');
+	npi_npidata.health_prov_taxonomy_code_1 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_2 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_3 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_4 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_5 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_6 IN ('207RG0100X') OR 
+	npi_npidata.health_prov_taxonomy_code_7 IN ('207RG0100X') OR 
+	npi_npidata.health_prov_taxonomy_code_8 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_9 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_10 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_11 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_12 IN	('207RG0100X') OR 
+	npi_npidata.health_prov_taxonomy_code_13 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_14 IN ('207RG0100X') OR
+	npi_npidata.health_prov_taxonomy_code_15 IN ('207RG0100X');
 
 -- ************************************************************************
 
