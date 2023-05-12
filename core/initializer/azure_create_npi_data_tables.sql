@@ -110,3 +110,15 @@ CREATE TABLE `npi_endpoints` (
   `affiliation_address_country` varchar(2) DEFAULT NULL,
   `affiliation_address_postal_code` varchar(55) DEFAULT NULL,
   PRIMARY KEY (`endpoint_id`));
+  
+ -- lkup_tax_codes definition
+ CREATE TABLE lkup_tax_codes (
+   tax_id INT AUTO_INCREMENT PRIMARY KEY,
+   code VARCHAR(100),
+   main_grouping VARCHAR(250),
+   classification VARCHAR(1000),
+   specialization VARCHAR(1000),
+   definition VARCHAR(2500),
+   notes VARCHAR(2500),
+   display_name VARCHAR(250),
+   section_type VARCHAR(100));

@@ -3,7 +3,7 @@ AZURE_CREATE_CMS_DATA_TABLES.SQL
 MySQL 5.7.32 Database
 Targeter - CMS DE-SynPUF DATA TABLES SCRIPT
 Queries needed to create data tables 
-jchapman - created: 4.15.2022 modified: 4.27.2023
+jchapman - created: 4.15.2022 modified: 5.12.2023
 */
 
 -- create table for beneficiaries
@@ -346,3 +346,39 @@ IGNORE 1 LINES
 
 SELECT * FROM syn_cms_prescriptions;
 */
+
+-- create table for lkup_icd9_proc
+CREATE TABLE lkup_icd9_proc (
+proc_code_pk INT AUTO_INCREMENT PRIMARY KEY,
+proc_code varchar(50),
+long_desc varchar(1000),
+short_desc varchar(250));
+
+-- create table for lkup_icd9_diag
+CREATE TABLE lkup_icd9_diag (
+diag_code_pk INT AUTO_INCREMENT PRIMARY KEY,
+diag_code varchar(50),
+long_desc varchar(1000),
+short_desc varchar(250));
+
+-- create table for lkup_fda_ndc
+CREATE TABLE lkup_fda_ndc (
+product_ndc_pk INT AUTO_INCREMENT PRIMARY KEY,
+product_ndc varchar(50),
+generic_name varchar(1000),
+labeler_name varchar(1000),
+brand_name varchar(1000),
+active_ingredients varchar(100),
+finished varchar(100),
+packaging varchar(100),
+listing_expiration_date varchar(100),
+openfda varchar(100),
+marketing_category varchar(100),
+dosage_form varchar(100),
+spl_id varchar(100),
+product_type varchar(100),
+route varchar(100),
+marketing_start_date varchar(100),
+product_id varchar(100),
+application_number varchar(100),
+brand_name_base varchar(1000));
