@@ -3,7 +3,7 @@ ANALYZE_NPI_TABLES.SQL
 Targeter v1
 MySQL 5.7.32 Database
 jchapman - created: 3.18.2022 modified: 3.19.2022
-Script that creates npi data tables and loads data from .csv files
+Script analyzes npi data table counts and loads to process log
 */
 
 /*
