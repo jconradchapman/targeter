@@ -382,3 +382,10 @@ marketing_start_date varchar(100),
 product_id varchar(100),
 application_number varchar(100),
 brand_name_base varchar(1000));
+
+-- create table for lkup_cms_state_codes
+CREATE TABLE lkup_cms_state_codes (
+state_code_pk INT AUTO_INCREMENT PRIMARY KEY,
+state_code varchar(2),
+state_name varchar(250),
+state_definition varchar(250));

@@ -6,7 +6,7 @@ jchapman - created: 05.11.2023 modified:
 Script contains data analysis statements for SYN_CMS data
 */
 
--- BASIC DATA EXPLORATION
+-- EXPLORE DATA
 
 -- inspect data fields from syn_cms db tables
 SELECT * FROM syn_cms_beneficiaries LIMIT 250;
@@ -30,14 +30,27 @@ SELECT COUNT(*) FROM syn_cms_outpat_claims; -- 15,036,943 | 5/12/2023
 
 SELECT COUNT(*) FROM syn_cms_prescriptions; -- 105,533,822 | 5/12/2023
 
--- PRACTICAL SCENARIOS
+-- run counts from syn_cms_beneficiaries by gender
+SELECT bene_sex_ident_cd, COUNT(*) FROM syn_cms_beneficiaries GROUP BY bene_sex_ident_cd; -- females outnumber males
+
+-- run counts from syn_cms_beneficiaries by state
+SELECT scb.sp_state_code, count(*)
+FROM syn_cms_beneficiaries scb
+GROUP BY scb.sp_state_code;
+
+-- run counts from syn_cms_beneficiaries by state joined to lkup_cms_state_codes to include state name in results
+SELECT scb.sp_state_code, lcsc.state_name, count(*)
+FROM syn_cms_beneficiaries scb
+JOIN lkup_cms_state_codes lcsc on scb.sp_state_code = lcsc.state_code
+GROUP BY scb.sp_state_code, lcsc.state_name;
+
+-- EXPLORE USE CASE SCENARIOS
 
 -- generate list of attending HCPs treating patients with tuberous sclerosis by querying for outpatient patients with tuberous sclerosis, matching synthetic HCP IDs to actual HCP IDs in the NPI database
 SELECT scoc.desynpuf_id, scoc.icd9_dgns_cd_1 AS first_diagnosis_code, scoc.at_physn_npi AS synthetic_npi_id, nn.npi AS real_npi_id, nn.prov_first_name, nn.prov_last_name, nn.health_prov_taxonomy_code_1, nn.practice_address_line_1, nn.practice_address_city, nn.practice_address_state, nn.practice_address_phone  
 FROM syn_cms_outpat_claims scoc
 LEFT JOIN npi.npi_npidata nn ON nn.npi = scoc.at_physn_npi 
 WHERE scoc.icd9_dgns_cd_1 = "7595" OR scoc.icd9_dgns_cd_2 = "7595" OR scoc.icd9_dgns_cd_3 = "7595";
-
 -- INITIAL FINDING: NPI IDs used in the DE-SynPUF data don't match NPI IDs from current NPI data - assume those IDs have been altered
 
--- klk
+-- 
