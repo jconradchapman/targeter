@@ -1,0 +1,153 @@
+{
+	"name": "filesyncmsbeneficiaries2008",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "2008beneficiary.csv",
+				"container": "syncmsfiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DESYNPUF_ID",
+				"type": "String"
+			},
+			{
+				"name": "BENE_BIRTH_DT",
+				"type": "String"
+			},
+			{
+				"name": "BENE_DEATH_DT",
+				"type": "String"
+			},
+			{
+				"name": "BENE_SEX_IDENT_CD",
+				"type": "String"
+			},
+			{
+				"name": "BENE_RACE_CD",
+				"type": "String"
+			},
+			{
+				"name": "BENE_ESRD_IND",
+				"type": "String"
+			},
+			{
+				"name": "SP_STATE_CODE",
+				"type": "String"
+			},
+			{
+				"name": "BENE_COUNTY_CD",
+				"type": "String"
+			},
+			{
+				"name": "BENE_HI_CVRAGE_TOT_MONS",
+				"type": "String"
+			},
+			{
+				"name": "BENE_SMI_CVRAGE_TOT_MONS",
+				"type": "String"
+			},
+			{
+				"name": "BENE_HMO_CVRAGE_TOT_MONS",
+				"type": "String"
+			},
+			{
+				"name": "PLAN_CVRG_MOS_NUM",
+				"type": "String"
+			},
+			{
+				"name": "SP_ALZHDMTA",
+				"type": "String"
+			},
+			{
+				"name": "SP_CHF",
+				"type": "String"
+			},
+			{
+				"name": "SP_CHRNKIDN",
+				"type": "String"
+			},
+			{
+				"name": "SP_CNCR",
+				"type": "String"
+			},
+			{
+				"name": "SP_COPD",
+				"type": "String"
+			},
+			{
+				"name": "SP_DEPRESSN",
+				"type": "String"
+			},
+			{
+				"name": "SP_DIABETES",
+				"type": "String"
+			},
+			{
+				"name": "SP_ISCHMCHT",
+				"type": "String"
+			},
+			{
+				"name": "SP_OSTEOPRS",
+				"type": "String"
+			},
+			{
+				"name": "SP_RA_OA",
+				"type": "String"
+			},
+			{
+				"name": "SP_STRKETIA",
+				"type": "String"
+			},
+			{
+				"name": "MEDREIMB_IP",
+				"type": "String"
+			},
+			{
+				"name": "BENRES_IP",
+				"type": "String"
+			},
+			{
+				"name": "PPPYMT_IP",
+				"type": "String"
+			},
+			{
+				"name": "MEDREIMB_OP",
+				"type": "String"
+			},
+			{
+				"name": "BENRES_OP",
+				"type": "String"
+			},
+			{
+				"name": "PPPYMT_OP",
+				"type": "String"
+			},
+			{
+				"name": "MEDREIMB_CAR",
+				"type": "String"
+			},
+			{
+				"name": "BENRES_CAR",
+				"type": "String"
+			},
+			{
+				"name": "PPPYMT_CAR",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

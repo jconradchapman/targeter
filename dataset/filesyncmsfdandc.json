@@ -1,0 +1,95 @@
+{
+	"name": "filesyncmsfdandc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "drug-ndc-0001-of-0001",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "fda_drug_ndc_excel.xlsx",
+				"container": "syncmslookups"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "product_ndc",
+				"type": "String"
+			},
+			{
+				"name": "generic_name",
+				"type": "String"
+			},
+			{
+				"name": "labeler_name",
+				"type": "String"
+			},
+			{
+				"name": "brand_name",
+				"type": "String"
+			},
+			{
+				"name": "active_ingredients",
+				"type": "String"
+			},
+			{
+				"name": "finished",
+				"type": "String"
+			},
+			{
+				"name": "packaging",
+				"type": "String"
+			},
+			{
+				"name": "listing_expiration_date",
+				"type": "String"
+			},
+			{
+				"name": "openfda",
+				"type": "String"
+			},
+			{
+				"name": "marketing_category",
+				"type": "String"
+			},
+			{
+				"name": "dosage_form",
+				"type": "String"
+			},
+			{
+				"name": "spl_id",
+				"type": "String"
+			},
+			{
+				"name": "product_type",
+				"type": "String"
+			},
+			{
+				"name": "route",
+				"type": "String"
+			},
+			{
+				"name": "marketing_start_date",
+				"type": "String"
+			},
+			{
+				"name": "product_id",
+				"type": "String"
+			},
+			{
+				"name": "application_number",
+				"type": "String"
+			},
+			{
+				"name": "brand_name_base",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

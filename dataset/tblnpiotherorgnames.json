@@ -1,0 +1,41 @@
+{
+	"name": "tblnpiotherorgnames",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "targeterdbmysql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [
+			{
+				"name": "othername_id",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "npi",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prov_othr_org_name",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prov_othr_org_name_type",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "npi_otherorgnames"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

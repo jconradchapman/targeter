@@ -1,0 +1,37 @@
+{
+	"name": "filenpiorgnames",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "othernames.csv",
+				"container": "npifiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "NPI",
+				"type": "String"
+			},
+			{
+				"name": "Provider Other Organization Name",
+				"type": "String"
+			},
+			{
+				"name": "Provider Other Organization Name Type Code",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

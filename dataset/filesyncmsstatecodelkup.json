@@ -1,0 +1,35 @@
+{
+	"name": "filesyncmsstatecodelkup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "CodeSystem-prvdr-state-cd",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "cms_codesystem_prvdr_state_cd.xlsx",
+				"container": "syncmslookups"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "state_code",
+				"type": "String"
+			},
+			{
+				"name": "state_name",
+				"type": "String"
+			},
+			{
+				"name": "state_definition",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,57 @@
+{
+	"name": "filesyncmsprescriptions",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "prescriptions.csv",
+				"container": "syncmsfiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DESYNPUF_ID",
+				"type": "String"
+			},
+			{
+				"name": "PDE_ID",
+				"type": "String"
+			},
+			{
+				"name": "SRVC_DT",
+				"type": "String"
+			},
+			{
+				"name": "PROD_SRVC_ID",
+				"type": "String"
+			},
+			{
+				"name": "QTY_DSPNSD_NUM",
+				"type": "String"
+			},
+			{
+				"name": "DAYS_SUPLY_NUM",
+				"type": "String"
+			},
+			{
+				"name": "PTNT_PAY_AMT",
+				"type": "String"
+			},
+			{
+				"name": "TOT_RX_CST_AMT",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

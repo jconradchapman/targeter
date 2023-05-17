@@ -1,0 +1,676 @@
+{
+	"name": "loadsyncmscarrierbdata",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DESYNPUF_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "desynpuf_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CLM_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "clm_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CLM_FROM_DT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "clm_from_dt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CLM_THRU_DT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "clm_thru_dt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_1",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_2",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_2",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_3",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_3",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_4",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_4",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_5",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_5",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_6",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_6",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_7",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_7",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ICD9_DGNS_CD_8",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "icd9_dgns_cd_8",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_1",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_2",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_2",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_3",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_3",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_4",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_4",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_5",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_5",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_6",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_6",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_7",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_7",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_8",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_8",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_9",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_9",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_10",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_10",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_11",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_11",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_12",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_12",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRF_PHYSN_NPI_13",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prf_physn_npi_13",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_1",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_2",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_2",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_3",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_3",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_4",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_4",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_5",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_5",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_6",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_6",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_7",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_7",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_8",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_8",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_9",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_9",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_10",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_10",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_11",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_11",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_12",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_12",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HCPCS_CD_13",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hcpcs_cd_13",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_1",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_2",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_2",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_3",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_3",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_4",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_4",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_5",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_5",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_6",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_6",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_7",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_7",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_8",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_8",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_9",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_9",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_10",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_10",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_11",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_11",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_12",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_12",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LINE_ICD9_DGNS_CD_13",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "line_icd9_dgns_cd_13",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "filesyncmscarrierb",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tblsyncmscarrierclaims",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-05-03T17:50:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

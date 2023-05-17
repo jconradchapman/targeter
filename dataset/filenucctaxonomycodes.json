@@ -1,0 +1,55 @@
+{
+	"name": "filenucctaxonomycodes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "nucc_taxonomy_230",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "nucc_taxonomy_230_excel.xlsx",
+				"container": "npilookups"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "code",
+				"type": "String"
+			},
+			{
+				"name": "main_grouping",
+				"type": "String"
+			},
+			{
+				"name": "classification",
+				"type": "String"
+			},
+			{
+				"name": "specialization",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "notes",
+				"type": "String"
+			},
+			{
+				"name": "display_name",
+				"type": "String"
+			},
+			{
+				"name": "section_type",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

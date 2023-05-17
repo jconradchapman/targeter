@@ -1,0 +1,101 @@
+{
+	"name": "filenpiendpoints",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "endpoints.csv",
+				"container": "npifiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "NPI",
+				"type": "String"
+			},
+			{
+				"name": "Endpoint Type",
+				"type": "String"
+			},
+			{
+				"name": "Endpoint Type Description",
+				"type": "String"
+			},
+			{
+				"name": "Endpoint",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation",
+				"type": "String"
+			},
+			{
+				"name": "Endpoint Description",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Legal Business Name",
+				"type": "String"
+			},
+			{
+				"name": "Use Code",
+				"type": "String"
+			},
+			{
+				"name": "Use Description",
+				"type": "String"
+			},
+			{
+				"name": "Other Use Description",
+				"type": "String"
+			},
+			{
+				"name": "Content Type",
+				"type": "String"
+			},
+			{
+				"name": "Content Description",
+				"type": "String"
+			},
+			{
+				"name": "Other Content Description",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address Line One",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address Line Two",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address City",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address State",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address Country",
+				"type": "String"
+			},
+			{
+				"name": "Affiliation Address Postal Code",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
