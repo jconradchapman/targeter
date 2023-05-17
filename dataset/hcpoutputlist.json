@@ -1,0 +1,24 @@
+{
+	"name": "hcpoutputlist",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeteroutputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "lungevitygatewayscampaignhcplist20221004.csv",
+				"container": "stackadaptfiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

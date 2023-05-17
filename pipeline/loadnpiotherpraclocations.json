@@ -1,0 +1,184 @@
+{
+	"name": "loadnpiotherpraclocations",
+	"properties": {
+		"activities": [
+			{
+				"name": "copynpiotherpraclocations",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "NPI",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "npi",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address- Address Line 1",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "address_line_1",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address-  Address Line 2",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "address_line_2",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - City Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - State Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - Postal Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "postal_code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - Country Code (If outside U.S.)",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - Telephone Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "telephone_nbr",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Secondary Practice Location Address - Telephone Extension",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "telephone_ext",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Provider Practice Location Address - Fax Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "fax_nbr",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "filenpiotherpraclocations",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tblnpiotherpraclocations",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-05-12T14:02:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

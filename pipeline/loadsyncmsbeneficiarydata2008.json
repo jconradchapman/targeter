@@ -1,0 +1,448 @@
+{
+	"name": "loadsyncmsbeneficiarydata2008",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DESYNPUF_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "desynpuf_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_BIRTH_DT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_birth_dt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_DEATH_DT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_death_dt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_SEX_IDENT_CD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_sex_ident_cd",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_RACE_CD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_race_cd",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_ESRD_IND",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_esrd_ind",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_STATE_CODE",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_state_code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_COUNTY_CD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_county_cd",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_HI_CVRAGE_TOT_MONS",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_hi_cvrage_tot_mons",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_SMI_CVRAGE_TOT_MONS",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_smi_cvrage_tot_mons",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENE_HMO_CVRAGE_TOT_MONS",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "bene_hmo_cvrage_tot_mons",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PLAN_CVRG_MOS_NUM",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "plan_cvrg_mos_num",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_ALZHDMTA",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_alzhdmta",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_CHF",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_chf",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_CHRNKIDN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_chrnkidn",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_CNCR",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_cncr",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_COPD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_copd",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_DEPRESSN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_depressn",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_DIABETES",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_diabetes",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_ISCHMCHT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_ischmcht",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_OSTEOPRS",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_osteoprs",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_RA_OA",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_ra_oa",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SP_STRKETIA",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "sp_strketia",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDREIMB_IP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "medreimb_ip",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENRES_IP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "benres_ip",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PPPYMT_IP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pppymt_ip",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDREIMB_OP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "medreimb_op",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENRES_OP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "benres_op",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PPPYMT_OP",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pppymt_op",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDREIMB_CAR",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "medreimb_car",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BENRES_CAR",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "benres_car",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PPPYMT_CAR",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pppymt_car",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "filesyncmsbeneficiaries2008",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tblsyncmsbeneficiaries",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-05-03T02:17:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,65 @@
+{
+	"name": "filenpiotherpraclocations",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "practicelocations.csv",
+				"container": "npifiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "NPI",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address- Address Line 1",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address-  Address Line 2",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - City Name",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - State Name",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - Postal Code",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - Country Code (If outside U.S.)",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - Telephone Number",
+				"type": "String"
+			},
+			{
+				"name": "Provider Secondary Practice Location Address - Telephone Extension",
+				"type": "String"
+			},
+			{
+				"name": "Provider Practice Location Address - Fax Number",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "dftargeter",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a71d34fe-db52-418e-8b59-e1505a101054",
+		"tenantId": "c9a9c565-c92e-492f-b794-6e60784d21e5"
+	}
+}

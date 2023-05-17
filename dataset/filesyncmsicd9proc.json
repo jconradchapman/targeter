@@ -1,0 +1,35 @@
+{
+	"name": "filesyncmsicd9proc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "CMS32_DESC_LONG_SHORT_SG.xlsx",
+				"container": "syncmslookups"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "proc_code",
+				"type": "String"
+			},
+			{
+				"name": "long_desc",
+				"type": "String"
+			},
+			{
+				"name": "short_desc",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

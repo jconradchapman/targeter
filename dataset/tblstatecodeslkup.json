@@ -1,0 +1,41 @@
+{
+	"name": "tblstatecodeslkup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "targetersyncmsdbmysql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [
+			{
+				"name": "state_code_pk",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "state_code",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "state_name",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "state_definition",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "lkup_cms_state_codes"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

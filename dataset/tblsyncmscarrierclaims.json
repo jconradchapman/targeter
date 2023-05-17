@@ -1,0 +1,329 @@
+{
+	"name": "tblsyncmscarrierclaims",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "targetersyncmsdbmysql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [
+			{
+				"name": "carrier_claims_pk",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "desynpuf_id",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "clm_id",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "clm_from_dt",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "clm_thru_dt",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_1",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_2",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_3",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_4",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_5",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_6",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_7",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "icd9_dgns_cd_8",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_1",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_2",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_3",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_4",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_5",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_6",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_7",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_8",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_9",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_10",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_11",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_12",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prf_physn_npi_13",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_1",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_2",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_3",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_4",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_5",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_6",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_7",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_8",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_9",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_10",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_11",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_12",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "hcpcs_cd_13",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_1",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_2",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_3",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_4",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_5",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_6",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_7",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_8",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_9",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_10",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_11",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_12",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "line_icd9_dgns_cd_13",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "syn_cms_carrier_claims"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,41 @@
+{
+	"name": "tblicd9diaglkup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "targetersyncmsdbmysql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [
+			{
+				"name": "diag_code_pk",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "diag_code",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "long_desc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "short_desc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "lkup_icd9_diag"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

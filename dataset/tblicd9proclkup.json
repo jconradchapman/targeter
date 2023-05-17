@@ -1,0 +1,41 @@
+{
+	"name": "tblicd9proclkup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "targetersyncmsdbmysql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [
+			{
+				"name": "proc_code_pk",
+				"type": "int",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "proc_code",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "long_desc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "short_desc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"tableName": "lkup_icd9_proc"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

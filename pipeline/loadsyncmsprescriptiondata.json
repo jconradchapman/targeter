@@ -1,0 +1,160 @@
+{
+	"name": "loadsyncmsprescriptiondata",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DESYNPUF_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "desynpuf_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PDE_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pde_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SRVC_DT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "srvc_dt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PROD_SRVC_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "prod_srvc_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "QTY_DSPNSD_NUM",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "qty_dspnsd_num",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DAYS_SUPLY_NUM",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "days_suply_num",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PTNT_PAY_AMT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ptnt_pay_amt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TOT_RX_CST_AMT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tot_rx_cst_amt",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "filesyncmsprescriptions",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tblsyncmsprescriptions",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-05-02T02:13:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
