@@ -2,7 +2,7 @@
 STACKADAPT_NPI_OUTPUT_LIST.SQL
 Targeter v1
 MySQL 5.7.32 Database
-jchapman - created: 6/24/22 modified: 10/4/22
+jchapman - created: 6/24/22 modified: 6/13/23
 
 Script to pull HCPs for StackAdapt campaigns
 Outputs: select mail address, mail phone, practice address, practice phone and direct endpoint
@@ -27,31 +27,33 @@ prac_state varchar(100),
 prac_zip varchar(100),
 prac_phone varchar(100));
 
+-- UPDATE THIS PART WITH RELEVANT TAXONOMY CODES **************************
+
+-- set variable = a single taxonomy code or a comma-separated list of codes (ex. '207RH0003X' | '207RH0003X,207RX0202X')
+SET @tcode = '282NC2000X';
+
+-- ************************************************************************
+
 INSERT INTO hcp_addresses 
 (npi, fname, lname, mail_address, mail_city, mail_state, mail_zip, mail_phone, prac_address, prac_city, prac_state, prac_zip, prac_phone)
 SELECT npi, prov_first_name AS first_name, prov_last_name AS last_name, CONCAT(mailing_address_line_1, " ", mailing_address_line_2) AS mail_address, mailing_address_city AS mail_city, mailing_address_state AS mail_state, mailing_address_zip AS mail_zip, mailing_address_phone AS mail_phone, CONCAT(practice_address_line_1, " ", practice_address_line_2) AS practice_address, practice_address_city AS practice_city, practice_address_state AS practice_state, practice_address_zip AS practice_zip, practice_address_phone AS practice_phone
 FROM npi_npidata
-
--- UPDATE THIS PART ONLY WITH RELEVANT TAXONOMY CODES ********************
-
 WHERE
-	npi_npidata.health_prov_taxonomy_code_1 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_2 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_3 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_4 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_5 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_6 IN ('207RG0100X') OR 
-	npi_npidata.health_prov_taxonomy_code_7 IN ('207RG0100X') OR 
-	npi_npidata.health_prov_taxonomy_code_8 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_9 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_10 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_11 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_12 IN	('207RG0100X') OR 
-	npi_npidata.health_prov_taxonomy_code_13 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_14 IN ('207RG0100X') OR
-	npi_npidata.health_prov_taxonomy_code_15 IN ('207RG0100X');
-
--- ************************************************************************
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_1, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_2, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_3, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_4, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_5, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_6, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_7, @tcode) OR 
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_8, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_9, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_10, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_11, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_12, @tcode) OR 
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_13, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_14, @tcode) OR
+	FIND_IN_SET(npi_npidata.health_prov_taxonomy_code_15, @tcode);
 
 SELECT * FROM hcp_addresses;
 SELECT COUNT(*) FROM hcp_addresses;
@@ -99,6 +101,7 @@ SELECT COUNT(*) FROM hcp_output_list;
 
 /*
 -- UPDATE THIS PART WITH NAME TO BE USED FOR OUTPUT FILE ********************
+-- ONLY USE THIS IF NOT CREATING EXPORT FILE WITH AZURE DATA FACTORY
 
 -- export column names in first row (preferred)
 SELECT 'fname', 'lname', 'mail_address', 'mail_city', 'mail_state', 'mail_zip', 'mail_phone', 'prac_address', 'prac_city', 'prac_state', 'prac_zip', 'prac_phone', 'endpoint'
