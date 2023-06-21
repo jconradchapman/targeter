@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "lungevitygatewayscampaignhcplist20221004.csv",
+				"fileName": "checkpointorthohandcampaignhcplist20230621.csv",
 				"container": "stackadaptfiles"
 			},
 			"columnDelimiter": ",",
