@@ -6,7 +6,7 @@ MySQL 5.7.32 Database
 jchapman - created: 3/7/2023 modified: 06/13/2023
 
 Script to pull HCPs for counts and data inspection
-Outputs: 1. search for relevant taxonomy codes
+Steps: 1. search for relevant taxonomy codes
 		 2. set search variable = codes desired
 		 3. generate count of HCPS
 		 4. generate list of HCPS - select mail address, mail phone, practice address, practice phone and direct endpoint (optional)
