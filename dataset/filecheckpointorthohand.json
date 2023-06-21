@@ -1,0 +1,84 @@
+{
+	"name": "filecheckpointorthohand",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "29848_prepped.csv",
+				"container": "checkpointsurgical"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "npi",
+				"type": "String"
+			},
+			{
+				"name": "last_name",
+				"type": "String"
+			},
+			{
+				"name": "first_name",
+				"type": "String"
+			},
+			{
+				"name": "primary_specialty",
+				"type": "String"
+			},
+			{
+				"name": "city",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "cbsa",
+				"type": "String"
+			},
+			{
+				"name": "hcpcs_cpt_code",
+				"type": "String"
+			},
+			{
+				"name": "hcpcs_cpt_desc",
+				"type": "String"
+			},
+			{
+				"name": "total_proc_cnt",
+				"type": "String"
+			},
+			{
+				"name": "percent_total_procs",
+				"type": "String"
+			},
+			{
+				"name": "unique_patients_cnt",
+				"type": "String"
+			},
+			{
+				"name": "total_charges",
+				"type": "String"
+			},
+			{
+				"name": "percent_total_charges",
+				"type": "String"
+			},
+			{
+				"name": "avg_charge_per_proc",
+				"type": "String"
+			}
+		]
+	}
+}
