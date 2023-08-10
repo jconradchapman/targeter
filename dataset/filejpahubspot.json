@@ -1,0 +1,108 @@
+{
+	"name": "filejpahubspot",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blbtargeterinputfiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "all_hubspot_contacts_edited.csv",
+				"container": "jpacontacts"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "source_rec_id",
+				"type": "String"
+			},
+			{
+				"name": "source_system",
+				"type": "String"
+			},
+			{
+				"name": "contact_fname",
+				"type": "String"
+			},
+			{
+				"name": "contact_lname",
+				"type": "String"
+			},
+			{
+				"name": "contact_title",
+				"type": "String"
+			},
+			{
+				"name": "company_name",
+				"type": "String"
+			},
+			{
+				"name": "company_industry",
+				"type": "String"
+			},
+			{
+				"name": "contact_email",
+				"type": "String"
+			},
+			{
+				"name": "contact_phone",
+				"type": "String"
+			},
+			{
+				"name": "contact_address",
+				"type": "String"
+			},
+			{
+				"name": "contact_city",
+				"type": "String"
+			},
+			{
+				"name": "contact_state",
+				"type": "String"
+			},
+			{
+				"name": "contact_postal_code",
+				"type": "String"
+			},
+			{
+				"name": "contact_country_region",
+				"type": "String"
+			},
+			{
+				"name": "became_lead_date",
+				"type": "String"
+			},
+			{
+				"name": "contact_unworked",
+				"type": "String"
+			},
+			{
+				"name": "became_cust_date",
+				"type": "String"
+			},
+			{
+				"name": "ip_country",
+				"type": "String"
+			},
+			{
+				"name": "ip_state_region_code",
+				"type": "String"
+			},
+			{
+				"name": "ip_state_region",
+				"type": "String"
+			},
+			{
+				"name": "ip_timezone",
+				"type": "String"
+			}
+		]
+	}
+}
