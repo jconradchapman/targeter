@@ -1,0 +1,4577 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dftargeter"
+		},
+		"blbtargeterinputfiles_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'blbtargeterinputfiles'"
+		},
+		"blbtargeteroutputfiles_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'blbtargeteroutputfiles'"
+		},
+		"targeterdbmysql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'targeterdbmysql'"
+		},
+		"targetersyncmsdbmysql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'targetersyncmsdbmysql'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/blbtargeterinputfiles')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "link to storage acct containing npi input files",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('blbtargeterinputfiles_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blbtargeteroutputfiles')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "link to storage acct for receiving campaign list output files",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('blbtargeteroutputfiles_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/targeterdbmysql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureMySql",
+				"typeProperties": {
+					"connectionString": "[parameters('targeterdbmysql_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/targetersyncmsdbmysql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureMySql",
+				"typeProperties": {
+					"connectionString": "[parameters('targetersyncmsdbmysql_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filejpadeltek')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "all_deltek_contacts_edited.csv",
+						"container": "jpacontacts"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "source_rec_id",
+						"type": "String"
+					},
+					{
+						"name": "source_system",
+						"type": "String"
+					},
+					{
+						"name": "contact_fname",
+						"type": "String"
+					},
+					{
+						"name": "contact_lname",
+						"type": "String"
+					},
+					{
+						"name": "contact_title",
+						"type": "String"
+					},
+					{
+						"name": "company_name",
+						"type": "String"
+					},
+					{
+						"name": "company_industry",
+						"type": "String"
+					},
+					{
+						"name": "contact_email",
+						"type": "String"
+					},
+					{
+						"name": "contact_phone",
+						"type": "String"
+					},
+					{
+						"name": "contact_address",
+						"type": "String"
+					},
+					{
+						"name": "contact_city",
+						"type": "String"
+					},
+					{
+						"name": "contact_state",
+						"type": "String"
+					},
+					{
+						"name": "contact_postal_code",
+						"type": "String"
+					},
+					{
+						"name": "contact_country_region",
+						"type": "String"
+					},
+					{
+						"name": "became_lead_date",
+						"type": "String"
+					},
+					{
+						"name": "contact_unworked",
+						"type": "String"
+					},
+					{
+						"name": "became_cust_date",
+						"type": "String"
+					},
+					{
+						"name": "ip_country",
+						"type": "String"
+					},
+					{
+						"name": "ip_state_region_code",
+						"type": "String"
+					},
+					{
+						"name": "ip_state_region",
+						"type": "String"
+					},
+					{
+						"name": "ip_timezone",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filejpahubspot')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "all_hubspot_contacts_edited.csv",
+						"container": "jpacontacts"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "source_rec_id",
+						"type": "String"
+					},
+					{
+						"name": "source_system",
+						"type": "String"
+					},
+					{
+						"name": "contact_fname",
+						"type": "String"
+					},
+					{
+						"name": "contact_lname",
+						"type": "String"
+					},
+					{
+						"name": "contact_title",
+						"type": "String"
+					},
+					{
+						"name": "company_name",
+						"type": "String"
+					},
+					{
+						"name": "company_industry",
+						"type": "String"
+					},
+					{
+						"name": "contact_email",
+						"type": "String"
+					},
+					{
+						"name": "contact_phone",
+						"type": "String"
+					},
+					{
+						"name": "contact_address",
+						"type": "String"
+					},
+					{
+						"name": "contact_city",
+						"type": "String"
+					},
+					{
+						"name": "contact_state",
+						"type": "String"
+					},
+					{
+						"name": "contact_postal_code",
+						"type": "String"
+					},
+					{
+						"name": "contact_country_region",
+						"type": "String"
+					},
+					{
+						"name": "became_lead_date",
+						"type": "String"
+					},
+					{
+						"name": "contact_unworked",
+						"type": "String"
+					},
+					{
+						"name": "became_cust_date",
+						"type": "String"
+					},
+					{
+						"name": "ip_country",
+						"type": "String"
+					},
+					{
+						"name": "ip_state_region_code",
+						"type": "String"
+					},
+					{
+						"name": "ip_state_region",
+						"type": "String"
+					},
+					{
+						"name": "ip_timezone",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpiendpoints')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "endpoints.csv",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "NPI",
+						"type": "String"
+					},
+					{
+						"name": "Endpoint Type",
+						"type": "String"
+					},
+					{
+						"name": "Endpoint Type Description",
+						"type": "String"
+					},
+					{
+						"name": "Endpoint",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation",
+						"type": "String"
+					},
+					{
+						"name": "Endpoint Description",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Legal Business Name",
+						"type": "String"
+					},
+					{
+						"name": "Use Code",
+						"type": "String"
+					},
+					{
+						"name": "Use Description",
+						"type": "String"
+					},
+					{
+						"name": "Other Use Description",
+						"type": "String"
+					},
+					{
+						"name": "Content Type",
+						"type": "String"
+					},
+					{
+						"name": "Content Description",
+						"type": "String"
+					},
+					{
+						"name": "Other Content Description",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address Line One",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address Line Two",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address City",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address State",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address Country",
+						"type": "String"
+					},
+					{
+						"name": "Affiliation Address Postal Code",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpinpidata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "npidata.csv",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpinpidata2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "npidata2",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpinpidatab')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "npidata2",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpiorgnames')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "othernames.csv",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "NPI",
+						"type": "String"
+					},
+					{
+						"name": "Provider Other Organization Name",
+						"type": "String"
+					},
+					{
+						"name": "Provider Other Organization Name Type Code",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenpiotherpraclocations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "practicelocations.csv",
+						"container": "npifiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "NPI",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address- Address Line 1",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address-  Address Line 2",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - City Name",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - State Name",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - Postal Code",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - Country Code (If outside U.S.)",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - Telephone Number",
+						"type": "String"
+					},
+					{
+						"name": "Provider Secondary Practice Location Address - Telephone Extension",
+						"type": "String"
+					},
+					{
+						"name": "Provider Practice Location Address - Fax Number",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filenucctaxonomycodes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "nucc_taxonomy_230",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "nucc_taxonomy_230_excel.xlsx",
+						"container": "npilookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "code",
+						"type": "String"
+					},
+					{
+						"name": "main_grouping",
+						"type": "String"
+					},
+					{
+						"name": "classification",
+						"type": "String"
+					},
+					{
+						"name": "specialization",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "notes",
+						"type": "String"
+					},
+					{
+						"name": "display_name",
+						"type": "String"
+					},
+					{
+						"name": "section_type",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsbeneficiaries2008')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "2008beneficiary.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "BENE_BIRTH_DT",
+						"type": "String"
+					},
+					{
+						"name": "BENE_DEATH_DT",
+						"type": "String"
+					},
+					{
+						"name": "BENE_SEX_IDENT_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_RACE_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_ESRD_IND",
+						"type": "String"
+					},
+					{
+						"name": "SP_STATE_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BENE_COUNTY_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_HI_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "BENE_SMI_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "BENE_HMO_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "PLAN_CVRG_MOS_NUM",
+						"type": "String"
+					},
+					{
+						"name": "SP_ALZHDMTA",
+						"type": "String"
+					},
+					{
+						"name": "SP_CHF",
+						"type": "String"
+					},
+					{
+						"name": "SP_CHRNKIDN",
+						"type": "String"
+					},
+					{
+						"name": "SP_CNCR",
+						"type": "String"
+					},
+					{
+						"name": "SP_COPD",
+						"type": "String"
+					},
+					{
+						"name": "SP_DEPRESSN",
+						"type": "String"
+					},
+					{
+						"name": "SP_DIABETES",
+						"type": "String"
+					},
+					{
+						"name": "SP_ISCHMCHT",
+						"type": "String"
+					},
+					{
+						"name": "SP_OSTEOPRS",
+						"type": "String"
+					},
+					{
+						"name": "SP_RA_OA",
+						"type": "String"
+					},
+					{
+						"name": "SP_STRKETIA",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_IP",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_IP",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_IP",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_OP",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_OP",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_OP",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_CAR",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_CAR",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_CAR",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsbeneficiaries2009')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "2009beneficiary.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsbeneficiaries2010')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "2010beneficiary.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "BENE_BIRTH_DT",
+						"type": "String"
+					},
+					{
+						"name": "BENE_DEATH_DT",
+						"type": "String"
+					},
+					{
+						"name": "BENE_SEX_IDENT_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_RACE_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_ESRD_IND",
+						"type": "String"
+					},
+					{
+						"name": "SP_STATE_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BENE_COUNTY_CD",
+						"type": "String"
+					},
+					{
+						"name": "BENE_HI_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "BENE_SMI_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "BENE_HMO_CVRAGE_TOT_MONS",
+						"type": "String"
+					},
+					{
+						"name": "PLAN_CVRG_MOS_NUM",
+						"type": "String"
+					},
+					{
+						"name": "SP_ALZHDMTA",
+						"type": "String"
+					},
+					{
+						"name": "SP_CHF",
+						"type": "String"
+					},
+					{
+						"name": "SP_CHRNKIDN",
+						"type": "String"
+					},
+					{
+						"name": "SP_CNCR",
+						"type": "String"
+					},
+					{
+						"name": "SP_COPD",
+						"type": "String"
+					},
+					{
+						"name": "SP_DEPRESSN",
+						"type": "String"
+					},
+					{
+						"name": "SP_DIABETES",
+						"type": "String"
+					},
+					{
+						"name": "SP_ISCHMCHT",
+						"type": "String"
+					},
+					{
+						"name": "SP_OSTEOPRS",
+						"type": "String"
+					},
+					{
+						"name": "SP_RA_OA",
+						"type": "String"
+					},
+					{
+						"name": "SP_STRKETIA",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_IP",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_IP",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_IP",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_OP",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_OP",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_OP",
+						"type": "String"
+					},
+					{
+						"name": "MEDREIMB_CAR",
+						"type": "String"
+					},
+					{
+						"name": "BENRES_CAR",
+						"type": "String"
+					},
+					{
+						"name": "PPPYMT_CAR",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmscarriera')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "carriera.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_FROM_DT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_THRU_DT",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_1",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_2",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_3",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_4",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_5",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_6",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_7",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_8",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_9",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_10",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_11",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_12",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_13",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_1",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_2",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_3",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_4",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_5",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_6",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_7",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_8",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_9",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_10",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_11",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_12",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_13",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_13",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmscarrierb')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "carrierb.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_FROM_DT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_THRU_DT",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_1",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_2",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_3",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_4",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_5",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_6",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_7",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_8",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_9",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_10",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_11",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_12",
+						"type": "String"
+					},
+					{
+						"name": "PRF_PHYSN_NPI_13",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_1",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_2",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_3",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_4",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_5",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_6",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_7",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_8",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_9",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_10",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_11",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_12",
+						"type": "String"
+					},
+					{
+						"name": "TAX_NUM_13",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_NCH_PMT_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PTB_DDCTBL_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_BENE_PRMRY_PYR_PD_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_COINSRNC_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ALOWD_CHRG_AMT_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_PRCSG_IND_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "LINE_ICD9_DGNS_CD_13",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsfdandc')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "drug-ndc-0001-of-0001",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "fda_drug_ndc_excel.xlsx",
+						"container": "syncmslookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "product_ndc",
+						"type": "String"
+					},
+					{
+						"name": "generic_name",
+						"type": "String"
+					},
+					{
+						"name": "labeler_name",
+						"type": "String"
+					},
+					{
+						"name": "brand_name",
+						"type": "String"
+					},
+					{
+						"name": "active_ingredients",
+						"type": "String"
+					},
+					{
+						"name": "finished",
+						"type": "String"
+					},
+					{
+						"name": "packaging",
+						"type": "String"
+					},
+					{
+						"name": "listing_expiration_date",
+						"type": "String"
+					},
+					{
+						"name": "openfda",
+						"type": "String"
+					},
+					{
+						"name": "marketing_category",
+						"type": "String"
+					},
+					{
+						"name": "dosage_form",
+						"type": "String"
+					},
+					{
+						"name": "spl_id",
+						"type": "String"
+					},
+					{
+						"name": "product_type",
+						"type": "String"
+					},
+					{
+						"name": "route",
+						"type": "String"
+					},
+					{
+						"name": "marketing_start_date",
+						"type": "String"
+					},
+					{
+						"name": "product_id",
+						"type": "String"
+					},
+					{
+						"name": "application_number",
+						"type": "String"
+					},
+					{
+						"name": "brand_name_base",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsicd9diag')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CMS32_DESC_LONG_SHORT_DX.xlsx",
+						"container": "syncmslookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "diag_code",
+						"type": "String"
+					},
+					{
+						"name": "long_desc",
+						"type": "String"
+					},
+					{
+						"name": "short_desc",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blbtargeterinputfiles')]"
+			]
+		}
+	]
+}
