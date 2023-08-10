@@ -1,0 +1,302 @@
+{
+	"name": "loadhubspotcontacts",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "source_rec_id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "source_rec_id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_fname",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_fname",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_lname",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_lname",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_title",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_title",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "company_name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "company_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "company_industry",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "company_industry",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_email",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_email",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_phone",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_phone",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_address",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_address",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_city",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_city",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_state",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_state",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_postal_code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_postal_code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_country_region",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_country_region",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "became_lead_date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "became_lead_date",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "contact_unworked",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "contact_unworked",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "became_cust_date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "became_cust_date",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ip_country",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ip_country",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ip_state_region_code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ip_state_region_code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ip_state_region",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ip_state_region",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ip_timezone",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ip_timezone",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "filejpahubspot",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tbljpahubspot",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
