@@ -1,0 +1,896 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dftargeter"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/loadsyncmsstatecodes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Load data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureMySqlSink",
+								"writeBatchSize": 10000,
+								"writeBatchTimeout": "00:00:30"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "state_code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "state_code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "state_name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "state_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "state_definition",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "state_definition",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "filesyncmsstatecodelkup",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tblstatecodeslkup",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-05-13T17:09:57Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pquerynpinpidata')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "remove columns from input file that are not needed",
+				"type": "WranglingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"name": "filenpinpidata",
+							"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> filenpinpidata",
+							"dataset": {
+								"referenceName": "filenpinpidata",
+								"type": "DatasetReference"
+							}
+						}
+					],
+					"script": "section Section1;\r\nshared filenpinpidata = let AdfDoc = AzureStorage.BlobContents(\"https://targeterinputfiles.blob.core.windows.net/npifiles/npidata.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]) in Csv;\r\nshared UserQuery = let Source = #\"filenpinpidata\",\r\n  #\"Removed columns\" = Table.RemoveColumns(Source, {\"Column12\", \"Column13\", \"Column14\", \"Column15\", \"Column16\", \"Column17\", \"Column18\", \"Column19\", \"Column20\", \"Column37\", \"Column43\", \"Column44\", \"Column45\", \"Column49\", \"Column50\", \"Column51\", \"Column53\", \"Column54\", \"Column55\", \"Column57\", \"Column58\", \"Column59\", \"Column61\", \"Column62\", \"Column63\", \"Column65\", \"Column66\", \"Column67\", \"Column69\", \"Column70\", \"Column71\", \"Column73\", \"Column74\", \"Column75\", \"Column77\", \"Column78\", \"Column79\", \"Column81\", \"Column82\", \"Column83\", \"Column85\", \"Column86\", \"Column87\", \"Column89\", \"Column90\", \"Column91\", \"Column93\", \"Column94\", \"Column95\", \"Column97\", \"Column98\", \"Column99\", \"Column101\", \"Column102\", \"Column103\", \"Column105\", \"Column106\", \"Column107\", \"Column108\", \"Column109\", \"Column110\", \"Column111\", \"Column112\", \"Column113\", \"Column114\", \"Column115\", \"Column116\", \"Column117\", \"Column118\", \"Column119\", \"Column120\", \"Column121\", \"Column122\", \"Column123\", \"Column124\", \"Column125\", \"Column126\", \"Column127\", \"Column128\", \"Column129\", \"Column130\", \"Column131\", \"Column132\", \"Column133\", \"Column134\", \"Column135\", \"Column136\", \"Column137\", \"Column138\", \"Column139\", \"Column140\", \"Column141\", \"Column142\", \"Column143\", \"Column144\", \"Column145\", \"Column146\", \"Column147\", \"Column148\", \"Column149\", \"Column150\", \"Column151\", \"Column152\", \"Column153\", \"Column154\", \"Column155\", \"Column156\", \"Column157\", \"Column158\", \"Column159\", \"Column160\", \"Column161\", \"Column162\", \"Column163\", \"Column164\", \"Column165\", \"Column166\", \"Column167\", \"Column168\", \"Column169\", \"Column170\", \"Column171\", \"Column172\", \"Column173\", \"Column174\", \"Column175\", \"Column176\", \"Column177\", \"Column178\", \"Column179\", \"Column180\", \"Column181\", \"Column182\", \"Column183\", \"Column184\", \"Column185\", \"Column186\", \"Column187\", \"Column188\", \"Column189\", \"Column190\", \"Column191\", \"Column192\", \"Column193\", \"Column194\", \"Column195\", \"Column196\", \"Column197\", \"Column198\", \"Column199\", \"Column200\", \"Column201\", \"Column202\", \"Column203\", \"Column204\", \"Column205\", \"Column206\", \"Column207\", \"Column208\", \"Column209\", \"Column210\", \"Column211\", \"Column212\", \"Column213\", \"Column214\", \"Column215\", \"Column216\", \"Column217\", \"Column218\", \"Column219\", \"Column220\", \"Column221\", \"Column222\", \"Column223\", \"Column224\", \"Column225\", \"Column226\", \"Column227\", \"Column228\", \"Column229\", \"Column230\", \"Column231\", \"Column232\", \"Column233\", \"Column234\", \"Column235\", \"Column236\", \"Column237\", \"Column238\", \"Column239\", \"Column240\", \"Column241\", \"Column242\", \"Column243\", \"Column244\", \"Column245\", \"Column246\", \"Column247\", \"Column248\", \"Column249\", \"Column250\", \"Column251\", \"Column252\", \"Column253\", \"Column254\", \"Column255\", \"Column256\", \"Column257\", \"Column258\", \"Column259\", \"Column260\", \"Column261\", \"Column262\", \"Column263\", \"Column264\", \"Column265\", \"Column266\", \"Column267\", \"Column268\", \"Column269\", \"Column270\", \"Column271\", \"Column272\", \"Column273\", \"Column274\", \"Column275\", \"Column276\", \"Column277\", \"Column278\", \"Column279\", \"Column280\", \"Column281\", \"Column282\", \"Column283\", \"Column284\", \"Column285\", \"Column286\", \"Column287\", \"Column288\", \"Column289\", \"Column290\", \"Column291\", \"Column292\", \"Column293\", \"Column294\", \"Column295\", \"Column296\", \"Column297\", \"Column298\", \"Column299\", \"Column300\", \"Column301\", \"Column302\", \"Column303\", \"Column304\", \"Column305\", \"Column306\", \"Column307\", \"Column310\", \"Column311\", \"Column312\", \"Column313\", \"Column314\", \"Column315\", \"Column316\", \"Column317\", \"Column318\", \"Column319\", \"Column320\", \"Column321\", \"Column322\", \"Column323\", \"Column324\", \"Column325\", \"Column326\", \"Column327\", \"Column328\", \"Column329\"}) in #\"Removed columns\";\r\n",
+					"documentLocale": "en-us"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/loadnpinpidata')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "powerquerynpinpidata",
+						"description": "remove unneeded columns from npidata stream",
+						"type": "ExecuteWranglingDataflow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "pquerynpinpidata",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"filenpinpidata": {},
+									"UserQueryfilenpinpidatab": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"queries": [
+								{
+									"queryName": "UserQuery",
+									"dataflowSinks": [
+										{
+											"name": "UserQueryfilenpinpidatab",
+											"dataset": {
+												"referenceName": "filenpinpidatab",
+												"type": "DatasetReference",
+												"parameters": {}
+											},
+											"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string,\n\t\tColumn_11 as string,\n\t\tColumn_12 as string,\n\t\tColumn_13 as string,\n\t\tColumn_14 as string,\n\t\tColumn_15 as string,\n\t\tColumn_16 as string,\n\t\tColumn_17 as string,\n\t\tColumn_18 as string,\n\t\tColumn_19 as string,\n\t\tColumn_20 as string,\n\t\tColumn_21 as string,\n\t\tColumn_22 as string,\n\t\tColumn_23 as string,\n\t\tColumn_24 as string,\n\t\tColumn_25 as string,\n\t\tColumn_26 as string,\n\t\tColumn_27 as string,\n\t\tColumn_28 as string,\n\t\tColumn_29 as string,\n\t\tColumn_30 as string,\n\t\tColumn_31 as string,\n\t\tColumn_32 as string,\n\t\tColumn_33 as string,\n\t\tColumn_34 as string,\n\t\tColumn_35 as string,\n\t\tColumn_36 as string,\n\t\tColumn_37 as string,\n\t\tColumn_38 as string,\n\t\tColumn_39 as string,\n\t\tColumn_40 as string,\n\t\tColumn_41 as string,\n\t\tColumn_42 as string,\n\t\tColumn_43 as string,\n\t\tColumn_44 as string,\n\t\tColumn_45 as string,\n\t\tColumn_46 as string,\n\t\tColumn_47 as string,\n\t\tColumn_48 as string,\n\t\tColumn_49 as string,\n\t\tColumn_50 as string,\n\t\tColumn_51 as string,\n\t\tColumn_52 as string,\n\t\tColumn_53 as string,\n\t\tColumn_54 as string,\n\t\tColumn_55 as string,\n\t\tColumn_56 as string,\n\t\tColumn_57 as string,\n\t\tColumn_58 as string,\n\t\tColumn_59 as string,\n\t\tColumn_60 as string,\n\t\tColumn_61 as string,\n\t\tColumn_62 as string,\n\t\tColumn_63 as string,\n\t\tColumn_64 as string,\n\t\tColumn_65 as string,\n\t\tColumn_66 as string,\n\t\tColumn_67 as string,\n\t\tColumn_68 as string,\n\t\tColumn_69 as string,\n\t\tColumn_70 as string,\n\t\tColumn_71 as string,\n\t\tColumn_72 as string,\n\t\tColumn_73 as string,\n\t\tColumn_74 as string,\n\t\tColumn_75 as string,\n\t\tColumn_76 as string,\n\t\tColumn_77 as string,\n\t\tColumn_78 as string,\n\t\tColumn_79 as string,\n\t\tColumn_80 as string,\n\t\tColumn_81 as string,\n\t\tColumn_82 as string,\n\t\tColumn_83 as string,\n\t\tColumn_84 as string,\n\t\tColumn_85 as string,\n\t\tColumn_86 as string,\n\t\tColumn_87 as string,\n\t\tColumn_88 as string,\n\t\tColumn_89 as string,\n\t\tColumn_90 as string,\n\t\tColumn_91 as string,\n\t\tColumn_92 as string,\n\t\tColumn_93 as string,\n\t\tColumn_94 as string,\n\t\tColumn_95 as string,\n\t\tColumn_96 as string,\n\t\tColumn_97 as string,\n\t\tColumn_98 as string,\n\t\tColumn_99 as string,\n\t\tColumn_100 as string,\n\t\tColumn_101 as string,\n\t\tColumn_102 as string,\n\t\tColumn_103 as string,\n\t\tColumn_104 as string,\n\t\tColumn_105 as string,\n\t\tColumn_106 as string,\n\t\tColumn_107 as string,\n\t\tColumn_108 as string,\n\t\tColumn_109 as string,\n\t\tColumn_110 as string,\n\t\tColumn_111 as string,\n\t\tColumn_112 as string,\n\t\tColumn_113 as string,\n\t\tColumn_114 as string,\n\t\tColumn_115 as string,\n\t\tColumn_116 as string,\n\t\tColumn_117 as string,\n\t\tColumn_118 as string,\n\t\tColumn_119 as string,\n\t\tColumn_120 as string,\n\t\tColumn_121 as string,\n\t\tColumn_122 as string,\n\t\tColumn_123 as string,\n\t\tColumn_124 as string,\n\t\tColumn_125 as string,\n\t\tColumn_126 as string,\n\t\tColumn_127 as string,\n\t\tColumn_128 as string,\n\t\tColumn_129 as string,\n\t\tColumn_130 as string,\n\t\tColumn_131 as string,\n\t\tColumn_132 as string,\n\t\tColumn_133 as string,\n\t\tColumn_134 as string,\n\t\tColumn_135 as string,\n\t\tColumn_136 as string,\n\t\tColumn_137 as string,\n\t\tColumn_138 as string,\n\t\tColumn_139 as string,\n\t\tColumn_140 as string,\n\t\tColumn_141 as string,\n\t\tColumn_142 as string,\n\t\tColumn_143 as string,\n\t\tColumn_144 as string,\n\t\tColumn_145 as string,\n\t\tColumn_146 as string,\n\t\tColumn_147 as string,\n\t\tColumn_148 as string,\n\t\tColumn_149 as string,\n\t\tColumn_150 as string,\n\t\tColumn_151 as string,\n\t\tColumn_152 as string,\n\t\tColumn_153 as string,\n\t\tColumn_154 as string,\n\t\tColumn_155 as string,\n\t\tColumn_156 as string,\n\t\tColumn_157 as string,\n\t\tColumn_158 as string,\n\t\tColumn_159 as string,\n\t\tColumn_160 as string,\n\t\tColumn_161 as string,\n\t\tColumn_162 as string,\n\t\tColumn_163 as string,\n\t\tColumn_164 as string,\n\t\tColumn_165 as string,\n\t\tColumn_166 as string,\n\t\tColumn_167 as string,\n\t\tColumn_168 as string,\n\t\tColumn_169 as string,\n\t\tColumn_170 as string,\n\t\tColumn_171 as string,\n\t\tColumn_172 as string,\n\t\tColumn_173 as string,\n\t\tColumn_174 as string,\n\t\tColumn_175 as string,\n\t\tColumn_176 as string,\n\t\tColumn_177 as string,\n\t\tColumn_178 as string,\n\t\tColumn_179 as string,\n\t\tColumn_180 as string,\n\t\tColumn_181 as string,\n\t\tColumn_182 as string,\n\t\tColumn_183 as string,\n\t\tColumn_184 as string,\n\t\tColumn_185 as string,\n\t\tColumn_186 as string,\n\t\tColumn_187 as string,\n\t\tColumn_188 as string,\n\t\tColumn_189 as string,\n\t\tColumn_190 as string,\n\t\tColumn_191 as string,\n\t\tColumn_192 as string,\n\t\tColumn_193 as string,\n\t\tColumn_194 as string,\n\t\tColumn_195 as string,\n\t\tColumn_196 as string,\n\t\tColumn_197 as string,\n\t\tColumn_198 as string,\n\t\tColumn_199 as string,\n\t\tColumn_200 as string,\n\t\tColumn_201 as string,\n\t\tColumn_202 as string,\n\t\tColumn_203 as string,\n\t\tColumn_204 as string,\n\t\tColumn_205 as string,\n\t\tColumn_206 as string,\n\t\tColumn_207 as string,\n\t\tColumn_208 as string,\n\t\tColumn_209 as string,\n\t\tColumn_210 as string,\n\t\tColumn_211 as string,\n\t\tColumn_212 as string,\n\t\tColumn_213 as string,\n\t\tColumn_214 as string,\n\t\tColumn_215 as string,\n\t\tColumn_216 as string,\n\t\tColumn_217 as string,\n\t\tColumn_218 as string,\n\t\tColumn_219 as string,\n\t\tColumn_220 as string,\n\t\tColumn_221 as string,\n\t\tColumn_222 as string,\n\t\tColumn_223 as string,\n\t\tColumn_224 as string,\n\t\tColumn_225 as string,\n\t\tColumn_226 as string,\n\t\tColumn_227 as string,\n\t\tColumn_228 as string,\n\t\tColumn_229 as string,\n\t\tColumn_230 as string,\n\t\tColumn_231 as string,\n\t\tColumn_232 as string,\n\t\tColumn_233 as string,\n\t\tColumn_234 as string,\n\t\tColumn_235 as string,\n\t\tColumn_236 as string,\n\t\tColumn_237 as string,\n\t\tColumn_238 as string,\n\t\tColumn_239 as string,\n\t\tColumn_240 as string,\n\t\tColumn_241 as string,\n\t\tColumn_242 as string,\n\t\tColumn_243 as string,\n\t\tColumn_244 as string,\n\t\tColumn_245 as string,\n\t\tColumn_246 as string,\n\t\tColumn_247 as string,\n\t\tColumn_248 as string,\n\t\tColumn_249 as string,\n\t\tColumn_250 as string,\n\t\tColumn_251 as string,\n\t\tColumn_252 as string,\n\t\tColumn_253 as string,\n\t\tColumn_254 as string,\n\t\tColumn_255 as string,\n\t\tColumn_256 as string,\n\t\tColumn_257 as string,\n\t\tColumn_258 as string,\n\t\tColumn_259 as string,\n\t\tColumn_260 as string,\n\t\tColumn_261 as string,\n\t\tColumn_262 as string,\n\t\tColumn_263 as string,\n\t\tColumn_264 as string,\n\t\tColumn_265 as string,\n\t\tColumn_266 as string,\n\t\tColumn_267 as string,\n\t\tColumn_268 as string,\n\t\tColumn_269 as string,\n\t\tColumn_270 as string,\n\t\tColumn_271 as string,\n\t\tColumn_272 as string,\n\t\tColumn_273 as string,\n\t\tColumn_274 as string,\n\t\tColumn_275 as string,\n\t\tColumn_276 as string,\n\t\tColumn_277 as string,\n\t\tColumn_278 as string,\n\t\tColumn_279 as string,\n\t\tColumn_280 as string,\n\t\tColumn_281 as string,\n\t\tColumn_282 as string,\n\t\tColumn_283 as string,\n\t\tColumn_284 as string,\n\t\tColumn_285 as string,\n\t\tColumn_286 as string,\n\t\tColumn_287 as string,\n\t\tColumn_288 as string,\n\t\tColumn_289 as string,\n\t\tColumn_290 as string,\n\t\tColumn_291 as string,\n\t\tColumn_292 as string,\n\t\tColumn_293 as string,\n\t\tColumn_294 as string,\n\t\tColumn_295 as string,\n\t\tColumn_296 as string,\n\t\tColumn_297 as string,\n\t\tColumn_298 as string,\n\t\tColumn_299 as string,\n\t\tColumn_300 as string,\n\t\tColumn_301 as string,\n\t\tColumn_302 as string,\n\t\tColumn_303 as string,\n\t\tColumn_304 as string,\n\t\tColumn_305 as string,\n\t\tColumn_306 as string,\n\t\tColumn_307 as string,\n\t\tColumn_308 as string,\n\t\tColumn_309 as string,\n\t\tColumn_310 as string,\n\t\tColumn_311 as string,\n\t\tColumn_312 as string,\n\t\tColumn_313 as string,\n\t\tColumn_314 as string,\n\t\tColumn_315 as string,\n\t\tColumn_316 as string,\n\t\tColumn_317 as string,\n\t\tColumn_318 as string,\n\t\tColumn_319 as string,\n\t\tColumn_320 as string,\n\t\tColumn_321 as string,\n\t\tColumn_322 as string,\n\t\tColumn_323 as string,\n\t\tColumn_324 as string,\n\t\tColumn_325 as string,\n\t\tColumn_326 as string,\n\t\tColumn_327 as string,\n\t\tColumn_328 as string,\n\t\tColumn_329 as string,\n\t\tColumn_330 as string\n\t),\n\tpartitionFileNames:['npidata2'],\n\tquoteAll: true,\n\tmapColumn(\n\t\tColumn1,\n\t\tColumn2,\n\t\tColumn3,\n\t\tColumn4,\n\t\tColumn5,\n\t\tColumn6,\n\t\tColumn7,\n\t\tColumn8,\n\t\tColumn9,\n\t\tColumn10,\n\t\tColumn11,\n\t\tColumn21,\n\t\tColumn22,\n\t\tColumn23,\n\t\tColumn24,\n\t\tColumn25,\n\t\tColumn26,\n\t\tColumn27,\n\t\tColumn28,\n\t\tColumn29,\n\t\tColumn30,\n\t\tColumn31,\n\t\tColumn32,\n\t\tColumn33,\n\t\tColumn34,\n\t\tColumn35,\n\t\tColumn36,\n\t\tColumn38,\n\t\tColumn39,\n\t\tColumn40,\n\t\tColumn41,\n\t\tColumn42,\n\t\tColumn46,\n\t\tColumn47,\n\t\tColumn48,\n\t\tColumn52,\n\t\tColumn56,\n\t\tColumn60,\n\t\tColumn64,\n\t\tColumn68,\n\t\tColumn72,\n\t\tColumn76,\n\t\tColumn80,\n\t\tColumn84,\n\t\tColumn88,\n\t\tColumn92,\n\t\tColumn96,\n\t\tColumn100,\n\t\tColumn104,\n\t\tColumn308,\n\t\tColumn309,\n\t\tColumn330\n\t),\n\tpartitionBy('hash', 1)) ~> UserQueryfilenpinpidatab"
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "copynpinpidata2",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "powerquerynpinpidata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureMySqlSink",
+								"writeBatchSize": 10000,
+								"writeBatchTimeout": "00:00:30"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 1
+										},
+										"sink": {
+											"name": "npi",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 2
+										},
+										"sink": {
+											"name": "entity_type_code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 3
+										},
+										"sink": {
+											"name": "replacement_npi",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 4
+										},
+										"sink": {
+											"name": "employ_id_nbr",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 5
+										},
+										"sink": {
+											"name": "prov_org_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 6
+										},
+										"sink": {
+											"name": "prov_last_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 7
+										},
+										"sink": {
+											"name": "prov_first_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 8
+										},
+										"sink": {
+											"name": "prov_middle_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 9
+										},
+										"sink": {
+											"name": "prov_name_prefix",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 10
+										},
+										"sink": {
+											"name": "prov_name_suffix",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 11
+										},
+										"sink": {
+											"name": "prov_cred_text",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 12
+										},
+										"sink": {
+											"name": "mailing_address_line_1",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 13
+										},
+										"sink": {
+											"name": "mailing_address_line_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 14
+										},
+										"sink": {
+											"name": "mailing_address_city",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 15
+										},
+										"sink": {
+											"name": "mailing_address_state",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 16
+										},
+										"sink": {
+											"name": "mailing_address_zip",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 17
+										},
+										"sink": {
+											"name": "mailing_address_country",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 18
+										},
+										"sink": {
+											"name": "mailing_address_phone",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 19
+										},
+										"sink": {
+											"name": "mailing_address_fax",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 20
+										},
+										"sink": {
+											"name": "practice_address_line_1",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 21
+										},
+										"sink": {
+											"name": "practice_address_line_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 22
+										},
+										"sink": {
+											"name": "practice_address_city",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 23
+										},
+										"sink": {
+											"name": "practice_address_state",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 24
+										},
+										"sink": {
+											"name": "practice_address_zip",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 25
+										},
+										"sink": {
+											"name": "practice_address_country",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 26
+										},
+										"sink": {
+											"name": "practice_address_phone",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 27
+										},
+										"sink": {
+											"name": "practice_address_fax",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 28
+										},
+										"sink": {
+											"name": "last_update_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 29
+										},
+										"sink": {
+											"name": "npi_deactivation_reason_code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 30
+										},
+										"sink": {
+											"name": "npi_deactivation_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 31
+										},
+										"sink": {
+											"name": "npi_reactivation_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 32
+										},
+										"sink": {
+											"name": "prov_gender_code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 33
+										},
+										"sink": {
+											"name": "authorized_official_title",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 34
+										},
+										"sink": {
+											"name": "authorized_official_phone_nbr",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 35
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_1",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 36
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 37
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_3",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 38
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_4",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 39
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_5",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 40
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_6",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 41
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_7",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 42
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_8",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 43
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_9",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 44
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_10",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 45
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_11",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 46
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_12",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 47
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_13",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 48
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_14",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 49
+										},
+										"sink": {
+											"name": "health_prov_taxonomy_code_15",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 50
+										},
+										"sink": {
+											"name": "sole_proprietor",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 51
+										},
+										"sink": {
+											"name": "org_subpart",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 52
+										},
+										"sink": {
+											"name": "cert_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "filenpinpidata2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tblnpinpidata",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-05-12T14:02:15Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/pquerynpinpidata')]"
+			]
+		}
+	]
+}

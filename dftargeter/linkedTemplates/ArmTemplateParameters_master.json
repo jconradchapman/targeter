@@ -14,6 +14,9 @@
 		"targeterdbmysql_connectionString": {
 			"value": ""
 		},
+		"targeterjpadbmysql_connectionString": {
+			"value": ""
+		},
 		"targetersyncmsdbmysql_connectionString": {
 			"value": ""
 		},
