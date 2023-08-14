@@ -1,0 +1,2437 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dftargeter"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsicd9diag')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CMS32_DESC_LONG_SHORT_DX.xlsx",
+						"container": "syncmslookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "diag_code",
+						"type": "String"
+					},
+					{
+						"name": "long_desc",
+						"type": "String"
+					},
+					{
+						"name": "short_desc",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsicd9proc')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CMS32_DESC_LONG_SHORT_SG.xlsx",
+						"container": "syncmslookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "proc_code",
+						"type": "String"
+					},
+					{
+						"name": "long_desc",
+						"type": "String"
+					},
+					{
+						"name": "short_desc",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsinpatient')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "inpatient.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_ID",
+						"type": "String"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_FROM_DT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_THRU_DT",
+						"type": "String"
+					},
+					{
+						"name": "PRVDR_NUM",
+						"type": "String"
+					},
+					{
+						"name": "CLM_PMT_AMT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_PRMRY_PYR_CLM_PD_AMT",
+						"type": "String"
+					},
+					{
+						"name": "AT_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "OP_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "OT_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "CLM_ADMSN_DT",
+						"type": "String"
+					},
+					{
+						"name": "ADMTNG_ICD9_DGNS_CD",
+						"type": "String"
+					},
+					{
+						"name": "CLM_PASS_THRU_PER_DIEM_AMT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_IP_DDCTBL_AMT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_PTA_COINSRNC_LBLTY_AM",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_BLOOD_DDCTBL_LBLTY_AM",
+						"type": "String"
+					},
+					{
+						"name": "CLM_UTLZTN_DAY_CNT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_DSCHRG_DT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_DRG_CD",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_14",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_15",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_16",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_17",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_18",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_19",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_20",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_21",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_22",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_23",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_24",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_25",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_26",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_27",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_28",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_29",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_30",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_31",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_32",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_33",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_34",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_35",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_36",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_37",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_38",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_39",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_40",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_41",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_42",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_43",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_44",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_45",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsoutpatient')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "outpatient.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "CLM_ID",
+						"type": "String"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_FROM_DT",
+						"type": "String"
+					},
+					{
+						"name": "CLM_THRU_DT",
+						"type": "String"
+					},
+					{
+						"name": "PRVDR_NUM",
+						"type": "String"
+					},
+					{
+						"name": "CLM_PMT_AMT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_PRMRY_PYR_CLM_PD_AMT",
+						"type": "String"
+					},
+					{
+						"name": "AT_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "OP_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "OT_PHYSN_NPI",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_BLOOD_DDCTBL_LBLTY_AM",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_DGNS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "ICD9_PRCDR_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_PTB_DDCTBL_AMT",
+						"type": "String"
+					},
+					{
+						"name": "NCH_BENE_PTB_COINSRNC_AMT",
+						"type": "String"
+					},
+					{
+						"name": "ADMTNG_ICD9_DGNS_CD",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_1",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_2",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_3",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_4",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_5",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_6",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_7",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_8",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_9",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_10",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_11",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_12",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_13",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_14",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_15",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_16",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_17",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_18",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_19",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_20",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_21",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_22",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_23",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_24",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_25",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_26",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_27",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_28",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_29",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_30",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_31",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_32",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_33",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_34",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_35",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_36",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_37",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_38",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_39",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_40",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_41",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_42",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_43",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_44",
+						"type": "String"
+					},
+					{
+						"name": "HCPCS_CD_45",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsprescriptions')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "prescriptions.csv",
+						"container": "syncmsfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DESYNPUF_ID",
+						"type": "String"
+					},
+					{
+						"name": "PDE_ID",
+						"type": "String"
+					},
+					{
+						"name": "SRVC_DT",
+						"type": "String"
+					},
+					{
+						"name": "PROD_SRVC_ID",
+						"type": "String"
+					},
+					{
+						"name": "QTY_DSPNSD_NUM",
+						"type": "String"
+					},
+					{
+						"name": "DAYS_SUPLY_NUM",
+						"type": "String"
+					},
+					{
+						"name": "PTNT_PAY_AMT",
+						"type": "String"
+					},
+					{
+						"name": "TOT_RX_CST_AMT",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filesyncmsstatecodelkup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeterinputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "CodeSystem-prvdr-state-cd",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "cms_codesystem_prvdr_state_cd.xlsx",
+						"container": "syncmslookups"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "state_code",
+						"type": "String"
+					},
+					{
+						"name": "state_name",
+						"type": "String"
+					},
+					{
+						"name": "state_definition",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/hcpoutputlist')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blbtargeteroutputfiles",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "lungevitygatewayscampaignhcplist20221004.csv",
+						"container": "stackadaptfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblfdandclkup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targetersyncmsdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "product_ndc_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "product_ndc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "generic_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "labeler_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "brand_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "active_ingredients",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "finished",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "packaging",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "listing_expiration_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "openfda",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "marketing_category",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dosage_form",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "spl_id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "product_type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "route",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "marketing_start_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "product_id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "application_number",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "brand_name_base",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "lkup_fda_ndc"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblhcpoutputlist')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "fname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "lname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mail_address",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mail_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mail_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mail_zip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mail_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prac_address",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prac_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prac_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prac_zip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prac_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "endpoint",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "hcp_output_list"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblicd9diaglkup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targetersyncmsdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "diag_code_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "diag_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "long_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "short_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "lkup_icd9_diag"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblicd9proclkup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targetersyncmsdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "proc_code_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "proc_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "long_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "short_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "lkup_icd9_proc"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tbljpadeltek')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterjpadbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "dcontact_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "source_rec_id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_fname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_lname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_title",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "company_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "company_industry",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_email",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_address",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_postal_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_country_region",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "became_lead_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_unworked",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "became_cust_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_state_region_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_state_region",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_timezone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "jpa_deltek_contacts"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tbljpahubspot')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterjpadbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "hcontact_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "source_rec_id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_fname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_lname",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_title",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "company_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "company_industry",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_email",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_address",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_postal_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_country_region",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "became_lead_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "contact_unworked",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "became_cust_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_state_region_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_state_region",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ip_timezone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "jpa_hubspot_contacts"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblnpiendpoints')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "endpoint_id",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "endpoint_type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "endpoint_type_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "endpoint",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "endpoint_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_legal_bus_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "use_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "use_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "other_use_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "content_type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "content_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "other_content_desc",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_line_1",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_line_2",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "affiliation_address_postal_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "npi_endpoints"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblnpinpidata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "npidata_id",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "entity_type_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "replacement_npi",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "employ_id_nbr",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_org_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_last_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_first_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_middle_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_name_prefix",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_name_suffix",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_cred_text",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_line_1",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_line_2",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_zip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "mailing_address_fax",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_line_1",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_line_2",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_zip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_phone",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "practice_address_fax",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "last_update_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi_deactivation_reason_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi_deactivation_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi_reactivation_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_gender_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "authorized_official_title",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "authorized_official_phone_nbr",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_1",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_2",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_3",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_4",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_5",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_6",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_7",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_8",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_9",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_10",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_11",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_12",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_13",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_14",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "health_prov_taxonomy_code_15",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sole_proprietor",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "org_subpart",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "cert_date",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "npi_npidata"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblnpiotherorgnames')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "othername_id",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_othr_org_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prov_othr_org_name_type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "npi_otherorgnames"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblnpiotherpraclocations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "other_prac_loc_id",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "npi",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "address_line_1",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "address_line_2",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "city",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "state",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "postal_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "country",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "telephone_nbr",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "telephone_ext",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "fax_nbr",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "npi_otherpraclocations"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblnucctaxonomycodes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targeterdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "tax_id",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "main_grouping",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "classification",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "specialization",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "definition",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "notes",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "display_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "section_type",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "lkup_tax_codes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstatecodeslkup')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targetersyncmsdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "state_code_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "state_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "state_name",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "state_definition",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "lkup_cms_state_codes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblsyncmsbeneficiaries')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "targetersyncmsdbmysql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureMySqlTable",
+				"schema": [
+					{
+						"name": "beneficiary_pk",
+						"type": "int",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "desynpuf_id",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_birth_dt",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_death_dt",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_sex_ident_cd",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_race_cd",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_esrd_ind",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_state_code",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_county_cd",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_hi_cvrage_tot_mons",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_smi_cvrage_tot_mons",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bene_hmo_cvrage_tot_mons",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "plan_cvrg_mos_num",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_alzhdmta",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_chf",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_chrnkidn",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_cncr",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_copd",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_depressn",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_diabetes",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_ischmcht",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_osteoprs",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_ra_oa",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sp_strketia",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "medreimb_ip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "benres_ip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "pppymt_ip",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "medreimb_op",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "benres_op",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "pppymt_op",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "medreimb_car",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "benres_car",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "pppymt_car",
+						"type": "varchar",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"tableName": "syn_cms_beneficiaries"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
